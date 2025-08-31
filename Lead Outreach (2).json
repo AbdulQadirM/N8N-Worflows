@@ -1,0 +1,418 @@
+{
+  "name": "Lead Outreach",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4c322dc5-1e29-4ad6-847e-fa5dd01daffc",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        304,
+        144
+      ],
+      "id": "805732dd-4682-427c-a86c-a6c5aa15c78f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        608,
+        144
+      ],
+      "id": "59338856-e4d5-461a-a48a-bd2df147b3f6",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=I am Ahmed, Founder of DataLinkk AI.\n\nAt DataLinkk AI, we specialize in building and delivering cutting-edge AI automation solutions for organizations worldwide. Over the years, we’ve successfully delivered a wide range of AI-powered products and solutions — from intelligent chatbots and RAG-based knowledge assistants to process automation systems, predictive analytics models, and generative AI applications.\n\nOur mission is to help businesses optimize workflows, reduce costs, and unlock new growth opportunities through scalable AI solutions tailored to their needs. With proven expertise in No Code Automations and AI Agents Such as using n8n and make.com we can solve your problems and save your time. But if you wanted code solutions then we can also utilise latest frameworks such as langchain and langgraph (with langsmith for evaluations of agents), mcps to develop multi agentic architectures for you. we’ve supported startups, enterprises, and agencies in transforming how they operate with automation.\n\nLearn more about us:\n\nWebsite: https://datalinkk.com/\nFiverr Agency (PRO): fiverr.com/agencies/datalinkk\n---\n\nWe have a list of leads with their details, and your task is to craft personalized emails based on the information provided.\n\n{{ $('Getting Leads').item.json['First Name'] }}\n{{ $('Getting Leads').item.json['Last Name'] }}\n{{ $('Getting Leads').item.json.Email }}\n{{ $('Getting Leads').item.json.Title }}\n{{ $('Getting Leads').item.json.Bio }}\n{{ $('Getting Leads').item.json.Address }}\n{{ $('Getting Leads').item.json.Industry }}\n{{ $('Getting Leads').item.json['Organization Name'] }}\n{{ $('Getting Leads').item.json['Organization Short Description'] }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        928,
+        -48
+      ],
+      "id": "ea2c35e1-d9e7-42ea-bb73-ed0ea760eaf7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-haiku-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 3.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        752,
+        416
+      ],
+      "id": "ed8b805b-1d26-4502-a3b3-597daa7f8a5c",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "UWpxQg0pN1pJqr5b",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"subjectLine\":\"email_subject\",\n    \"emailBody\": \"email_text\",\n\t\"leadEmail\": \"email\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1200,
+        384
+      ],
+      "id": "0b53a7b3-a330-411b-aa19-f0676cccd994",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-haiku-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 3.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1104,
+        576
+      ],
+      "id": "665969d7-076e-476a-be05-6eeef97dfb01",
+      "name": "Anthropic Chat Model1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "UWpxQg0pN1pJqr5b",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "c8833579-c564-4ca0-a8c9-3d2398c339ff",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -64
+      ],
+      "id": "092fcec5-9608-4a42-839f-37e7a27c14a3",
+      "name": "Webhook",
+      "webhookId": "c8833579-c564-4ca0-a8c9-3d2398c339ff"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1QhlLaw73eEvpR1tIBc-ML-C61fCX2BILASlUpnxI1I4",
+          "mode": "list",
+          "cachedResultName": "Test-sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QhlLaw73eEvpR1tIBc-ML-C61fCX2BILASlUpnxI1I4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 716318259,
+          "mode": "list",
+          "cachedResultName": "outreach",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QhlLaw73eEvpR1tIBc-ML-C61fCX2BILASlUpnxI1I4/edit#gid=716318259"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email Sent": "=Yes",
+            "Email": "={{ $('Filter').item.json.Email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email Sent",
+              "displayName": "Email Sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Flag",
+              "displayName": "Flag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1664,
+        128
+      ],
+      "id": "2c76de69-31ad-40dc-8323-f67f492daf6c",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "d7rT2bDKaAi52ioX",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1QhlLaw73eEvpR1tIBc-ML-C61fCX2BILASlUpnxI1I4",
+          "mode": "list",
+          "cachedResultName": "Test-sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QhlLaw73eEvpR1tIBc-ML-C61fCX2BILASlUpnxI1I4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QhlLaw73eEvpR1tIBc-ML-C61fCX2BILASlUpnxI1I4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        16,
+        -64
+      ],
+      "id": "53075c9a-7636-472b-9f9e-86295bb5456d",
+      "name": "Getting Leads",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "d7rT2bDKaAi52ioX",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.output.leadEmail }}",
+        "subject": "={{ $json.output.subjectLine }}",
+        "emailType": "text",
+        "message": "={{ $json.output.emailBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1392,
+        -96
+      ],
+      "id": "83956a02-3044-42c5-bc3f-73def850fc31",
+      "name": "Send a message1",
+      "webhookId": "42a2a5fe-e9a8-4faa-bc56-e48449df47d2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "chsbxxSrpyIvuPuX",
+          "name": "Gmail account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Getting Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Getting Leads": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "17c95fbe-3a56-4171-a3aa-50d67a98b234",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a3602b7c32b415f6d7787644842cf00b92f4abd3ccd1d7a677e2f0aa49c4cad"
+  },
+  "id": "9KjyiENZHn4Ggz1s",
+  "tags": []
+}
